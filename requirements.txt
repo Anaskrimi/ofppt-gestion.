@@ -1,0 +1,10 @@
+customtkinter
+tkcalendar
+fpdf2
+pandas
+openpyxl
+pdfplumber
+pypdf
+pymupdf
+pytesseract
+pyinstaller

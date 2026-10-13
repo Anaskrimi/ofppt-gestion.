@@ -1,0 +1,36 @@
+OFPPT GESTION - CREER L'INSTALLATEUR
+====================================
+
+Sur un PC Windows (une seule fois, pour fabriquer le Setup) :
+ 1. Installer Python 3.11 ou 3.12 (python.org) - cocher "Add Python to PATH".
+ 2. Installer Inno Setup 6 (https://jrsoftware.org/isdl.php).
+ 3. Mettre TOUT ce dossier ensemble (app.py, ofppt_*.py, logo_ofppt.png, app_icon.ico,
+    requirements.txt, installer.iss, build_installer.bat).
+ 4. Double-cliquer sur build_installer.bat.
+ 5. Resultat : Output\Setup_OFPPT_Gestion.exe  -> a installer sur n'importe quel PC.
+
+OU SONT LES DONNEES ?
+ C:\Users\<vous>\AppData\Roaming\MonLogicielGestion\
+   database.db        <- toute la base (personnel, absences, paie, emplois...)
+   emploi_data.json   <- emploi du temps
+   backups\           <- sauvegarde automatique chaque jour (10 derniers jours)
+   bulletins_scans\   <- scans des bulletins
+ La desinstallation et les mises a jour NE SUPPRIMENT PAS ce dossier.
+ Vos donnees actuelles (meme dossier) seront retrouvees automatiquement.
+
+CHANGER DE PC / TRAVAILLER AILLEURS
+ - Copier le dossier MonLogicielGestion (ou juste database.db + emploi_data.json)
+   dans le meme emplacement sur l'autre PC apres avoir installe le logiciel.
+ - Conseil : copier regulierement le dossier "backups" sur une cle USB / OneDrive / Google Drive.
+ - Ne jamais ouvrir la meme base sur deux PC en meme temps.
+
+OCR (PDF scannes) : la version installee n'inclut pas RapidOCR. Installer Tesseract
+ (https://github.com/UB-Mannheim/tesseract/wiki, avec le francais) pour lire les PDF scannes.
+
+FABRIQUER LE SETUP SANS INSTALLER PYTHON (GitHub, gratuit)
+ 1. Creer un compte sur github.com, puis "New repository" -> nom : ofppt-gestion -> choisir PRIVATE -> Create.
+ 2. "uploading an existing file" : glisser TOUT le contenu de ce dossier (y compris le dossier .github).
+    Si .github n'apparait pas : Add file > Create new file, nom ".github/workflows/build.yml",
+    coller le contenu du fichier build.yml.
+ 3. Onglet "Actions" -> "Fabriquer Setup OFPPT Gestion" -> "Run workflow" (attendre 5 a 10 minutes).
+ 4. Ouvrir l'execution terminee -> en bas "Artifacts" -> telecharger Setup_OFPPT_Gestion (zip contenant le .exe).
