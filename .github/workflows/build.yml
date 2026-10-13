@@ -1,0 +1,42 @@
+name: Fabriquer Setup OFPPT Gestion
+
+on:
+  workflow_dispatch:      # bouton "Run workflow" dans l'onglet Actions
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installer les modules
+        run: python -m pip install -r requirements.txt
+
+      - name: Creer le logiciel (PyInstaller)
+        run: >
+          python -m PyInstaller --noconfirm --clean --onedir --windowed
+          --name OFPPT_Gestion --icon app_icon.ico
+          --add-data "logo_ofppt.png;."
+          --collect-all customtkinter --collect-all tkcalendar
+          --collect-all pdfplumber --collect-all fpdf
+          --hidden-import babel.numbers --hidden-import openpyxl
+          --hidden-import pypdf --hidden-import fitz --hidden-import pytesseract
+          app.py
+
+      - name: Installer Inno Setup
+        run: choco install innosetup -y --no-progress
+
+      - name: Creer le Setup.exe
+        run: '& "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss'
+
+      - name: Publier le Setup.exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: Setup_OFPPT_Gestion
+          path: Output/Setup_OFPPT_Gestion.exe
